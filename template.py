@@ -5,6 +5,9 @@ from collections import defaultdict as DD
 from itertools import product as P, combinations as CO, permutations as PE
 R = range
 
+dI = {'v' : 1, '^': -1, '<': 0, '>': 0}
+dJ = {'v' : 0, '^': 0, '<': -1, '>': 1}
+
 DAY = 14
 
 def getday(n):
