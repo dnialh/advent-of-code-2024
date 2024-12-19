@@ -1,6 +1,7 @@
 import requests
 from secret import session
 
+from functools import cache
 from collections import defaultdict as DD
 from itertools import product as P, combinations as CO, permutations as PE
 R = range
@@ -13,7 +14,8 @@ dY = [1, 0, -1, 0]
 #v>^<
 
 
-DAY = 149
+DAY = 19
+
 def getday(n):
     return requests.get(f"https://adventofcode.com/2024/day/{n}/input",cookies={'session':session}).text
 
@@ -31,6 +33,16 @@ def cout(x):
     print('\n\n')
     
 s_samp = '''
+r, wr, b, g, bwu, rb, gb, br
+
+brwrr
+bggr
+gbbr
+rrbgbr
+ubwu
+bwurrg
+brgr
+bbrgwb
 '''
 
 s_real = getday(DAY)
@@ -46,3 +58,24 @@ for s in [s_samp, s_real]:
     print('Lines:', n)
     print('Size:', len(s))
 
+    pat = list(ll[0].split(', '))
+
+    @cache
+    def solve(s):
+        if s == '':
+            return 1
+
+        out = 0
+        
+        for p in pat:
+            if s[-len(p):] == p:
+                out += solve(s[:-len(p)])
+
+        return out
+
+    out = 0
+    for s in ll[2:]:
+        #print(s, solve(s))
+        out += solve(s)
+
+    cout(out)
