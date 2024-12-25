@@ -14,7 +14,7 @@ dY = [1, 0, -1, 0]
 #v>^<
 
 
-DAY = 22
+DAY = 25
 def getday(n):
     return requests.get(f"https://adventofcode.com/2024/day/{n}/input",cookies={'session':session}).text
 
@@ -32,13 +32,52 @@ def cout(x):
     print('\n\n')
     
 s_samp = '''
+#####
+.####
+.####
+.####
+.#.#.
+.#...
+.....
+
+#####
+##.##
+.#.##
+...##
+...#.
+...#.
+.....
+
+.....
+#....
+#....
+#...#
+#.#.#
+#.###
+#####
+
+.....
+.....
+#.#..
+###..
+###.#
+###.#
+#####
+
+.....
+.....
+.....
+#....
+#.#..
+#.#.#
+#####
 '''
 
 s_real = getday(DAY)
 
 for s in [s_samp, s_real]:
     s = s.strip()
-    ll = s.split('\n')
+    ll = s.split('\n\n')
     board = ll
     n = len(ll)
 
@@ -49,4 +88,31 @@ for s in [s_samp, s_real]:
     print('Size:', len(s))
 
     m = len(ll[0])
+
+    s = []
+    out = 0
+
+    for line in ll:
+        z = []
+
+        l = line.split('\n')
+
+        o = 0
+        m = 1
+        for i in range(6):
+            for j in range(5):
+                if l[i][j] == '#':
+                    o += m
+                m *= 2
+
+        for v in s:
+            if o & v == 0:
+                out += 1
+        s.append(o)
+
+    print(out)
+
+    
+
+    
 
